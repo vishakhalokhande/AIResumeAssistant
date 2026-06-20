@@ -1,0 +1,6 @@
+@AIResumeAssistant.API_HostAddress = http://localhost:5188
+
+GET {{AIResumeAssistant.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
