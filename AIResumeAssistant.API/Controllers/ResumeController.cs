@@ -79,10 +79,18 @@ namespace AIResumeAssistant.API.Controllers
 			BinaryData documentData = BinaryData.FromStream(stream);
 
 			// 3. Initialize Document Intelligence Client
+			string diURI = _configuration["DocumentIntelligenceURI"];
+			string diKey = _configuration["DocumentIntelligenceKey"];
+
+			//DocumentIntelligenceClient client =
+			//	new DocumentIntelligenceClient(
+			//		new Uri("https://di-resume-scanning.cognitiveservices.azure.com/"),
+			//		new AzureKeyCredential("5O5W6nu66VgQboRB7v9EZ1BGSM3UHgp2ZUPLS7OtR5H2WILYD1IAJQQJ99CFACYeBjFXJ3w3AAALACOGiLiR"));
+
 			DocumentIntelligenceClient client =
 				new DocumentIntelligenceClient(
-					new Uri("https://di-resume-scanning.cognitiveservices.azure.com/"),
-					new AzureKeyCredential("5O5W6nu66VgQboRB7v9EZ1BGSM3UHgp2ZUPLS7OtR5H2WILYD1IAJQQJ99CFACYeBjFXJ3w3AAALACOGiLiR"));
+					new Uri(diURI),
+					new AzureKeyCredential(diKey));
 
 			// 4. Construct AnalyzeDocumentOptions (Passes ModelId and BinaryData into constructor)
 			var options = new AnalyzeDocumentOptions("prebuilt-layout", documentData)
