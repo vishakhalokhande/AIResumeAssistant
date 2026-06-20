@@ -82,11 +82,7 @@ namespace AIResumeAssistant.API.Controllers
 			string diURI = _configuration["DocumentIntelligenceURI"];
 			string diKey = _configuration["DocumentIntelligenceKey"];
 
-			//DocumentIntelligenceClient client =
-			//	new DocumentIntelligenceClient(
-			//		new Uri("https://di-resume-scanning.cognitiveservices.azure.com/"),
-			//		new AzureKeyCredential("5O5W6nu66VgQboRB7v9EZ1BGSM3UHgp2ZUPLS7OtR5H2WILYD1IAJQQJ99CFACYeBjFXJ3w3AAALACOGiLiR"));
-
+			
 			DocumentIntelligenceClient client =
 				new DocumentIntelligenceClient(
 					new Uri(diURI),
@@ -119,9 +115,9 @@ namespace AIResumeAssistant.API.Controllers
 
 			// 7.  Send Text to Azure OpenAI
 			// create client 
-			//string openAIEndpoint = "https://craftaffairvish-4955-resource.cognitiveservices.azure.com/";
+			
 			string openAIEndpoint = _configuration["AIResumeOpenAIEndpoint"];
-			//string apiKey = "D02vYXmPnu1aWByI45Tt9XR0v4kcloUEIvm6JNLMKCCYVEoT0aNzJQQJ99CFACHYHv6XJ3w3AAAAACOG5iWL";
+			
 			string apiKey = _configuration["AIResumeOpenAIKey"];
 			AzureOpenAIClient openAIClient = new AzureOpenAIClient(
 			new Uri(openAIEndpoint),
