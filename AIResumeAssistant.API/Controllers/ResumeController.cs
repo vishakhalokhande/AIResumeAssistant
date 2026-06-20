@@ -108,11 +108,13 @@ namespace AIResumeAssistant.API.Controllers
 
 			// 6 .We have text stored in extractedText.ToString()
 			string resumeExtractedText = extractedText.ToString();
-			
+
 			// 7.  Send Text to Azure OpenAI
 			// create client 
-			string openAIEndpoint = "https://craftaffairvish-4955-resource.cognitiveservices.azure.com/";
-			string apiKey = "D02vYXmPnu1aWByI45Tt9XR0v4kcloUEIvm6JNLMKCCYVEoT0aNzJQQJ99CFACHYHv6XJ3w3AAAAACOG5iWL";
+			//string openAIEndpoint = "https://craftaffairvish-4955-resource.cognitiveservices.azure.com/";
+			string openAIEndpoint = _configuration["AIResumeOpenAIEndpoint"];
+			//string apiKey = "D02vYXmPnu1aWByI45Tt9XR0v4kcloUEIvm6JNLMKCCYVEoT0aNzJQQJ99CFACHYHv6XJ3w3AAAAACOG5iWL";
+			string apiKey = _configuration["AIResumeOpenAIKey"];
 			AzureOpenAIClient openAIClient = new AzureOpenAIClient(
 			new Uri(openAIEndpoint),
 			new AzureKeyCredential(apiKey));

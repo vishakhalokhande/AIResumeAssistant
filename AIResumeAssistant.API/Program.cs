@@ -10,10 +10,12 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddControllers();
 builder.Services.AddScoped<BlobStorageService>();
+
 builder.Configuration.AddAzureKeyVault(
 	new Uri("https://airesume-keyvault.vault.azure.net/"),
 	new DefaultAzureCredential());
 //var apiKey = builder.Configuration["AzureOpenAIApiKey"];
+
 builder.Services.AddSingleton<DocumentIntelligenceClient>(
 	provider =>
 	{
@@ -23,7 +25,7 @@ builder.Services.AddSingleton<DocumentIntelligenceClient>(
 			new Uri(config["DocumentIntelligence:Endpoint"]),
 			new AzureKeyCredential(config["DocumentIntelligence:ApiKey"]));
 	});
-var storageConnection = builder.Configuration["BlobStorageConnectionString"];
+
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -38,9 +40,6 @@ builder.Services.AddCors(options =>
 				.AllowAnyMethod();
 		});
 });
-
-
-
 
 var app = builder.Build();
 
