@@ -35,7 +35,10 @@ builder.Services.AddCors(options =>
 		policy =>
 		{
 			policy
-				.WithOrigins("http://localhost:5173")
+				.WithOrigins(
+				"http://localhost:5173",
+				"https://lemon-meadow-0a825890f.7.azurestaticapps.net"
+				)
 				.AllowAnyHeader()
 				.AllowAnyMethod();
 		});
