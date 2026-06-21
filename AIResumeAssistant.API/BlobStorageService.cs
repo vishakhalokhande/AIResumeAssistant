@@ -14,7 +14,7 @@ namespace AIResumeAssistant.API
 		{
 			//string connectionString = _configuration.GetConnectionString("AzureBlobStorage");
 			//var connectionString = _configuration["BlobStorageConnectionString"];
-			var connectionString = _configuration["DefaultEndpointsProtocol=https;AccountName=storageairesumeassistant;AccountKey=XWZFxL0yZNIeOA2JoMd2iawKl6IKLRc59dCxjbgYhkEWxp24MQ7ReUxVMLIuJvU7fyeMczW3EAvB+AStVxT9yg==;EndpointSuffix=core.windows.net"];
+			var connectionString = "DefaultEndpointsProtocol=https;AccountName=storageairesumeassistant;AccountKey=XWZFxL0yZNIeOA2JoMd2iawKl6IKLRc59dCxjbgYhkEWxp24MQ7ReUxVMLIuJvU7fyeMczW3EAvB+AStVxT9yg==;EndpointSuffix=core.windows.net";
 
 			string containerName = "resumes";
 
