@@ -51,8 +51,8 @@ namespace AIResumeAssistant.API.Controllers
 		[HttpGet("extract")]
 		public async Task<IActionResult> Extract()
 		{
-			var connectionString = _configuration["BlobStorageConnectionString"];
-
+			//var connectionString = _configuration["BlobStorageConnectionString"];
+			var connectionString = "DefaultEndpointsProtocol=https;AccountName=storageairesumeassistant;AccountKey=XWZFxL0yZNIeOA2JoMd2iawKl6IKLRc59dCxjbgYhkEWxp24MQ7ReUxVMLIuJvU7fyeMczW3EAvB+AStVxT9yg==;EndpointSuffix=core.windows.net";
 			string containerName = "resumes";
 
 			BlobContainerClient containerClient =
@@ -79,10 +79,11 @@ namespace AIResumeAssistant.API.Controllers
 			BinaryData documentData = BinaryData.FromStream(stream);
 
 			// 3. Initialize Document Intelligence Client
-			string diURI = _configuration["DocumentIntelligenceURI"];
-			string diKey = _configuration["DocumentIntelligenceKey"];
+			//string diURI = _configuration["DocumentIntelligenceURI"];
+			//string diKey = _configuration["DocumentIntelligenceKey"];
+			string diURI = "https://di-resume-scanning.cognitiveservices.azure.com/";
+			string diKey = "5O5W6nu66VgQboRB7v9EZ1BGSM3UHgp2ZUPLS7OtR5H2WILYD1IAJQQJ99CFACYeBjFXJ3w3AAALACOGiLiR";
 
-			
 			DocumentIntelligenceClient client =
 				new DocumentIntelligenceClient(
 					new Uri(diURI),
@@ -115,10 +116,12 @@ namespace AIResumeAssistant.API.Controllers
 
 			// 7.  Send Text to Azure OpenAI
 			// create client 
-			
-			string openAIEndpoint = _configuration["AIResumeOpenAIEndpoint"];
-			
-			string apiKey = _configuration["AIResumeOpenAIKey"];
+
+			//string openAIEndpoint = _configuration["AIResumeOpenAIEndpoint"];
+
+			//string apiKey = _configuration["AIResumeOpenAIKey"];
+			string openAIEndpoint = "https://craftaffairvish-4955-resource.cognitiveservices.azure.com/";
+			string apiKey = "D02vYXmPnu1aWByI45Tt9XR0v4kcloUEIvm6JNLMKCCYVEoT0aNzJQQJ99CFACHYHv6XJ3w3AAAAACOG5iWL";
 			AzureOpenAIClient openAIClient = new AzureOpenAIClient(
 			new Uri(openAIEndpoint),
 			new AzureKeyCredential(apiKey));

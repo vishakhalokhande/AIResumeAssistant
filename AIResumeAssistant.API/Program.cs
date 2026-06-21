@@ -11,9 +11,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddScoped<BlobStorageService>();
 
-builder.Configuration.AddAzureKeyVault(
-	new Uri("https://airesume-keyvault.vault.azure.net/"),
-	new DefaultAzureCredential());
+//builder.Configuration.AddAzureKeyVault(
+//	new Uri("https://airesume-keyvault.vault.azure.net/"),
+//	new DefaultAzureCredential());
 //var apiKey = builder.Configuration["AzureOpenAIApiKey"];
 
 builder.Services.AddSingleton<DocumentIntelligenceClient>(

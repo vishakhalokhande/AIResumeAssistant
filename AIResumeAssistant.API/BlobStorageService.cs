@@ -13,7 +13,8 @@ namespace AIResumeAssistant.API
 		public async Task<string> UploadFileAsync(IFormFile file)
 		{
 			//string connectionString = _configuration.GetConnectionString("AzureBlobStorage");
-			var connectionString = _configuration["BlobStorageConnectionString"];
+			//var connectionString = _configuration["BlobStorageConnectionString"];
+			var connectionString = _configuration["DefaultEndpointsProtocol=https;AccountName=storageairesumeassistant;AccountKey=XWZFxL0yZNIeOA2JoMd2iawKl6IKLRc59dCxjbgYhkEWxp24MQ7ReUxVMLIuJvU7fyeMczW3EAvB+AStVxT9yg==;EndpointSuffix=core.windows.net"];
 
 			string containerName = "resumes";
 
@@ -35,30 +36,30 @@ namespace AIResumeAssistant.API
 			return blobClient.Uri.ToString();
 		}
 
-		public async Task<MemoryStream> DownloadFileAsync()
-		{
-			var connectionString = _configuration["BlobStorageConnectionString"];
+		//public async Task<MemoryStream> DownloadFileAsync()
+		//{
+		//	var connectionString = _configuration["BlobStorageConnectionString"];
 
-			string containerName = "resumes";
+		//	string containerName = "resumes";
 
-			BlobContainerClient containerClient =
-				new BlobContainerClient(connectionString, containerName);
+		//	BlobContainerClient containerClient =
+		//		new BlobContainerClient(connectionString, containerName);
 
-			await containerClient.CreateIfNotExistsAsync();
-			string fileName = "add7459b-2c80-4345-8b3f-c7f732523bf4_John Doe Resume.docx";
+		//	await containerClient.CreateIfNotExistsAsync();
+		//	string fileName = "add7459b-2c80-4345-8b3f-c7f732523bf4_John Doe Resume.docx";
 
-			//string fileName =
-			//	$"{Guid.NewGuid()}_{file.FileName}";
+		//	//string fileName =
+		//	//	$"{Guid.NewGuid()}_{file.FileName}";
 
-			BlobClient blobClient =
-				containerClient.GetBlobClient(fileName);
+		//	BlobClient blobClient =
+		//		containerClient.GetBlobClient(fileName);
 
-			MemoryStream stream = new MemoryStream();
+		//	MemoryStream stream = new MemoryStream();
 
-			await blobClient.DownloadToAsync(stream);
-			//string result = Encoding.UTF8.GetString(stream.ToArray());
+		//	await blobClient.DownloadToAsync(stream);
+		//	//string result = Encoding.UTF8.GetString(stream.ToArray());
 
-			return stream;
-		}
+		//	return stream;
+		//}
 	}
 }
