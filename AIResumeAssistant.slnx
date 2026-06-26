@@ -1,3 +1,6 @@
 <Solution>
   <Project Path="AIResumeAssistant.API/AIResumeAssistant.API.csproj" />
+  <Project Path="AIResumeAssistant.Application/AIResumeAssistant.Application.csproj" Id="f8ca1f33-c350-470e-90fe-160b53a909f7" />
+  <Project Path="AIResumeAssistant.Domain/AIResumeAssistant.Domain.csproj" Id="c0a72348-c274-47a3-9100-467edcfbe084" />
+  <Project Path="AIResumeAssistant.Infrastructure/AIResumeAssistant.Infrastructure.csproj" Id="16252660-abf4-47ca-9a98-810b9fda74fe" />
 </Solution>

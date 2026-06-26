@@ -3,6 +3,7 @@ using System.Text.Json;
 using Azure;
 using Azure.AI.DocumentIntelligence;
 using Azure.AI.OpenAI;
+using Azure.Core;
 using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.DataProtection.KeyManagement;
 using Microsoft.AspNetCore.Mvc;
@@ -21,11 +22,14 @@ namespace AIResumeAssistant.API.Controllers
 		private readonly BlobStorageService _blobStorageService;
 		private readonly DocumentIntelligenceClient _client;
 		private readonly IConfiguration _configuration;
-		public ResumeController(BlobStorageService blobStorageService, DocumentIntelligenceClient client, IConfiguration configuration)
+		private readonly InterviewNotificationService _interviewNotificationService;
+		public string matchingScoreJson = String.Empty; 
+		public ResumeController(BlobStorageService blobStorageService, DocumentIntelligenceClient client, IConfiguration configuration, InterviewNotificationService interviewNotificationService)
 		{
 			_blobStorageService = blobStorageService;
 			_client = client;
 			_configuration = configuration;
+			_interviewNotificationService = interviewNotificationService;
 		}
 
 		[HttpPost("upload")]
@@ -153,63 +157,66 @@ namespace AIResumeAssistant.API.Controllers
 				new UserChatMessage(prompt)
 			]);
 
-			string json = completion.Content[0].Text;
+			string resumeJson = completion.Content[0].Text;
 
 			// Step 10: Deserialize
-	//		var resume =
-	//JsonSerializer.Deserialize<ResumeDto>(json);
+			//		var resume =
+			//JsonSerializer.Deserialize<ResumeDto>(json);
 
-			return Ok(json);
+
+			// Give a prompt to openAI to match the score of resume with the job description 
+			//string jobDescription = "" +
+			//"Need: " +
+			//"- C#" +
+			//"- .NET 8" +
+			//"- Azure" +
+			//"- Docker" +
+			//"- Kubernetes" +
+			//"Experience 5 years";
+
+			string jobDescription = "" +
+			"Need: " +
+			"- C#" +
+			"- .NET Core" +
+			"- React";
+			
+
+			string promptForMatchingScore = $@"
+											Job Description:
+											{jobDescription}
+											Resume JSON:
+											{resumeJson}
+											Calculate:
+											1. Match percentage (0-100)
+											2. Matching skills
+											3. Missing skills
+											4. Short explanation
+
+											Return ONLY JSON.";
+
+			// Step 9: Call GPT
+			ChatCompletion completionResumeScore =
+			chatClient.CompleteChat(
+			[
+				new SystemChatMessage(
+					"You are an expert resume parser. Return JSON only."),
+				new UserChatMessage(promptForMatchingScore)
+			]);
+
+			matchingScoreJson = completionResumeScore.Content[0].Text;
+
+			await _interviewNotificationService
+		.SendInterviewEmailAsync(
+			new CandidateInterviewRequest
+			{
+				CandidateName = "Kiaan Bhatter",
+				CandidateEmail = "vishakha.lokhande@gmail.com",
+				MatchScore = 90,
+				JobTitle = "Senior .NET Developer"
+			});
+
+			return Ok(matchingScoreJson);
 
 		}
-
-		//[HttpPost("extract")]
-		//public async Task<IActionResult> Extract(IFormFile file)
-		//{
-		//	using var stream = file.OpenReadStream();
-
-		//	string extractedText =
-		//		await ExtractTextAsync(stream);
-
-		//	return Ok(extractedText);
-		//}
-
-		//public async Task<string> ExtractTextAsync(Stream fileStream)
-		//{
-		//	var operation = await _client.AnalyzeDocumentAsync(
-		//		WaitUntil.Completed,
-		//		"prebuilt-read",
-		//		BinaryData.FromStream(fileStream));
-
-		//	AnalyzeResult result = operation.Value;
-
-		//	return result.Content;
-		//}
-
-		//[HttpPost("extract")]
-		//public async Task<IActionResult> ExtractResume([FromBody] ResumeRequest request)
-		//{
-		//	AnalyzeDocumentOperation operation =
-		//	await _client.AnalyzeDocumentAsync(
-		//		WaitUntil.Completed,
-		//		"prebuilt-read",
-		//		new Uri(request.BlobUrl));
-
-		//	AnalyzeResult result = operation.Value;
-
-		//	StringBuilder extractedText = new();
-
-		//	foreach (DocumentPage page in result.Pages)
-		//	{
-		//		foreach (DocumentLine line in page.Lines)
-		//		{
-		//			extractedText.AppendLine(line.Content);
-		//		}
-		//	}
-
-		//	return Ok(extractedText.ToString());
-		//}
-
-		
 	}
 }

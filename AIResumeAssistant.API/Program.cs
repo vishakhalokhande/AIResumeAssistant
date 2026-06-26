@@ -1,4 +1,6 @@
 using AIResumeAssistant.API;
+using AIResumeAssistant.Application;
+using AIResumeAssistant.Infrastructure;
 using Azure;
 using Azure.AI.DocumentIntelligence;
 using Azure.Identity;
@@ -9,6 +11,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddControllers();
+builder.Services.AddWebAPIDI(builder.Configuration);
+
 builder.Services.AddScoped<BlobStorageService>();
 
 //builder.Configuration.AddAzureKeyVault(
@@ -26,6 +30,7 @@ builder.Services.AddSingleton<DocumentIntelligenceClient>(
 			new AzureKeyCredential(config["DocumentIntelligence:ApiKey"]));
 	});
 
+builder.Services.AddHttpClient<InterviewNotificationService>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
