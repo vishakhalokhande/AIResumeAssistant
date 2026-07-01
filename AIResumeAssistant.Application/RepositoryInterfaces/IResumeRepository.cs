@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AIResumeAssistant.Domain.Entities;
 
-namespace AIResumeAssistant.Application.Interfaces
+namespace AIResumeAssistant.Application.RepositoryInterfaces
 {
 	internal interface IResumeRepository
 	{

@@ -13,24 +13,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddWebAPIDI(builder.Configuration);
 
-builder.Services.AddScoped<BlobStorageService>();
 
 //builder.Configuration.AddAzureKeyVault(
 //	new Uri("https://airesume-keyvault.vault.azure.net/"),
 //	new DefaultAzureCredential());
 //var apiKey = builder.Configuration["AzureOpenAIApiKey"];
-
-builder.Services.AddSingleton<DocumentIntelligenceClient>(
-	provider =>
-	{
-		IConfiguration config = provider.GetRequiredService<IConfiguration>();
-
-		return new DocumentIntelligenceClient(
-			new Uri(config["DocumentIntelligence:Endpoint"]),
-			new AzureKeyCredential(config["DocumentIntelligence:ApiKey"]));
-	});
-
-builder.Services.AddHttpClient<InterviewNotificationService>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AIResumeAssistant.Application.Interfaces;
+using AIResumeAssistant.Application.RepositoryInterfaces;
 using AIResumeAssistant.Domain.Entities;
 
 namespace AIResumeAssistant.Infrastructure.Persistence.Repositories
